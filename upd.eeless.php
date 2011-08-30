@@ -155,11 +155,9 @@ class Eeless_upd {
      * @return boolean
      */
 	public function uninstall() {		
-	
 	 
 		// Finds and removes the module tables from the database
-		 
-		
+		  
 		$this->EE->load->dbforge();
 
 		$this->EE->db->select('module_id');

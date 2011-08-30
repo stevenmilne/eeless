@@ -33,15 +33,10 @@ class Eeless_mcp {
 	public function __construct() {
 		$this->EE =& get_instance();
 		
-		// Setting some global variables
-		$this->eeless_per_page = 20;
-		
+		// Setting some global variables 
 		$this->eeless_base_url = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless';
-
     	$this->eeless_form_url = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless';
-
     	$this->eeless_vars = array();
-    	
 		// Customise the module pages
     	$this->EE->cp->set_right_nav(
     		array(
@@ -51,17 +46,12 @@ class Eeless_mcp {
 		
 		// Initialise and load functions list    	
     	$this->eeless_functions = new eeless_fcn();
-    } /* END Constructor */
-	
-	
-	
-	
-	
-	
+    } 
+ 
 	/**
 	 * Class Index page
 	 * 
-	 * First page users see - simply displays path settings atm
+	 * First page users see - simply displays path settings  
 	 *
 	 * @access public
      * @return array
@@ -69,8 +59,7 @@ class Eeless_mcp {
 	public function index() {
 		// Load some libraries and helpers
 		$this->EE->load->library('javascript');
-		$this->EE->load->library('table');
-		$this->EE->load->library('pagination');
+		$this->EE->load->library('table'); 
 		$this->EE->load->helper('form');
 		 
 		// Set the module page title
@@ -79,16 +68,12 @@ class Eeless_mcp {
 		// Set the forms action URL
 		$this->eeless_vars['action_url'] = $this->eeless_form_url;
 		
-		$this->eeless_vars['eelesss'] = array();
+		$this->eeless_vars['eelesss'] = array(); 
 		
-		// Get a head count of all the entries in the table
- 		$eeless_total = $this->EE->db->count_all('eeless');
-
-		// todo check this is 1 - as we should only have one root
-		
-		// Get all the entries in the table, build up variables array to pass over the View
+		// Get our entry and ready our variables for presentation
 		$this->EE->db->order_by('eeless_id','asc'); 
 		
+		// TODO - we _might_ have multiples in future
 		$eeless_query = $this->EE->db->get('eeless',1,0);
 		
 		foreach($eeless_query->result_array() as $row) :
@@ -99,13 +84,11 @@ class Eeless_mcp {
 			$this->eeless_vars['eelesss'][$row['eeless_id']]['edit_link'] = $this->eeless_base_url.AMP.'method=edit'.AMP.'eeless_id='.$row['eeless_id'];	 
 		endforeach;
 	
-		unset($eeless_total,$eeless_p_config,$eeless_query);
+		unset($eeless_total,$eeless_query);
 		 
 		// Load modules main page
 		return $this->eeless_return_data = $this->EE->load->view('index',$this->eeless_vars,true);
-	} /* END index */
-	
-	
+	} 
  
 	/**
 	 * Class Edit page
@@ -116,28 +99,24 @@ class Eeless_mcp {
      * @return array	 
 	 */
 	public function edit() {
-		// Load some libraries and helpers
-		$this->EE->load->library('javascript');
+		// Load some libraries and helpers 
 		$this->EE->load->helper('form');
 		
 		// Customise the page title
 		$this->EE->cp->set_variable('cp_page_title',$this->EE->lang->line('eeless_edit'));
-		
 		$this->EE->cp->set_breadcrumb($this->eeless_base_url,$this->EE->lang->line('eeless_module_name'));
-
-		// Set the form action url to Update
 		$this->eeless_vars['action_url'] = $this->eeless_form_url.AMP.'method=update';
 	 
 		// TODO - add some JS checking of the input	 
 	 
-		// Check for the entry ID.  If empty show index
+		// Check for the entry ID.  If empty show index without doing anything
 		if(false == $this->EE->input->get_post('eeless_id')) :		
 			$this->EE->functions->redirect($this->eeless_base_url);
 		endif;
 
 		// Based on entry ID, get entries row values in order to pass over the Edit view
-		$eeless_id = $this->EE->input->get_post('eeless_id');
-		
+		// in case we move to a multiple base setup
+		$eeless_id = $this->EE->input->get_post('eeless_id'); 
 		$eeless_query = $this->EE->db->get('eeless',$eeless_id);
 
 		foreach($eeless_query->result_array() as $row) :
@@ -153,14 +132,8 @@ class Eeless_mcp {
 		
 		// Load the Edit view
 		return $this->eeless_return_data = $this->EE->load->view('edit',$this->eeless_vars,true);
-	} /* END edit */
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
+	} 
+ 
 	/**
 	 * Class Update page
 	 * 
@@ -184,22 +157,19 @@ class Eeless_mcp {
 			//        return a message if not
 			//        perhaps drop a small gif into the folder to test then show in the template?
 			
-			
 			// Do the update
 			$this->EE->db->query($this->EE->db->update_string('eeless',$eeless_data,'eeless_id = '.$this->EE->input->get_post('eeless_id')));
 		
 			// Show success message to user
 			$this->EE->session->set_flashdata('message_success',$this->EE->lang->line('eeless_updated_success'));
-  
-			unset($eeless_functions);
 		endif;
 
 		// Clean up		
-		unset($eeless_data,$eeless_query);
+		unset($eeless_data);
 		
 		// Return the user the modules Index page		
 		$this->EE->functions->redirect($this->eeless_base_url);
-	} /* END update */
+	} 
  
 }
 // END CLASS
