@@ -72,10 +72,10 @@ $eeless_html_output .= form_open($action_url,$eeless_form_attributes);
 
 $eeless_html_output .= form_hidden('eeless_id',$eeless_id);
 
-$eeless_html_output .= '<p>'.form_label('LESS Folder Path','less_serverpath',$eeless_less_serverpath_label).'<br>'.form_input($eeless_less_serverpath_input).'</p>';
-$eeless_html_output .= '<p>'.form_label('LESS Folder URL','less_browserpath',$eeless_less_browserpath_label).'<br>'.form_input($eeless_less_browserpath_input).'</p>';
-$eeless_html_output .= '<p>'.form_label('CSS Folder Path','css_serverpath',$eeless_css_serverpath_label).'<br>'.form_input($eeless_css_serverpath_input).'</p>';
-$eeless_html_output .= '<p>'.form_label('CSS Folder URL','css_browserpath',$eeless_css_browserpath_label).'<br>'.form_input($eeless_css_browserpath_input).'</p>';
+$eeless_html_output .= '<p>'.form_label('LESS Server Path','less_serverpath',$eeless_less_serverpath_label).'<br>'.form_input($eeless_less_serverpath_input).'</p>';
+$eeless_html_output .= '<p>'.form_label('LESS Browser URL','less_browserpath',$eeless_less_browserpath_label).'<br>'.form_input($eeless_less_browserpath_input).'</p>';
+$eeless_html_output .= '<p>'.form_label('CSS Server Path','css_serverpath',$eeless_css_serverpath_label).'<br>'.form_input($eeless_css_serverpath_input).'</p>';
+$eeless_html_output .= '<p>'.form_label('CSS Browser URL','css_browserpath',$eeless_css_browserpath_label).'<br>'.form_input($eeless_css_browserpath_input).'</p>';
  
 
 $eeless_html_output .= form_submit($eeless_submit_button);
