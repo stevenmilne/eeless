@@ -3,7 +3,9 @@
 1/22/13 : Added the ability to set LESS and CSS paths in your config.php file.
 
 `$config['less_serverpath'] = "";`
+
 `$config['css_serverpath'] = "";`
+
 `$config['css_browserpath'] = "";`
 
 ===========
