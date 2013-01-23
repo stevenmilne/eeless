@@ -49,8 +49,22 @@ class Eeless {
 			$less_browserpath	= $row['less_browserpath'];
 			$css_serverpath 	= $row['css_serverpath'];
 			$css_browserpath	= $row['css_browserpath'];
-		 
 		endforeach;
+		
+		if ($this->EE->config->slash_item('less_serverpath')) {
+			$less_serverpath = $this->EE->config->slash_item('less_serverpath');
+			$less_serverpath = $this->EE->functions->remove_double_slashes($less_serverpath);
+		}
+		
+		if ($this->EE->config->slash_item('css_serverpath')) {
+			$css_serverpath = $this->EE->config->slash_item('css_serverpath');
+			$css_serverpath = $this->EE->functions->remove_double_slashes($css_serverpath);
+		}
+		
+		if ($this->EE->config->slash_item('css_serverpath')) {
+			$css_browserpath = $this->EE->config->slash_item('css_browserpath');
+			$css_browserpath = $this->EE->functions->remove_double_slashes($css_browserpath);
+		}
 
 		//  grab the paths from the template		
 		$bootstrap = $this->EE->TMPL->fetch_param('less');
