@@ -23,6 +23,8 @@ class Eeless_upd {
 	private $eeless_return_data; 
 	private $EE;
 	
+	private $EE2 = FALSE;
+	
 	/**
      * Class Constructor
      *
@@ -33,7 +35,12 @@ class Eeless_upd {
 		// Set the version of the module
 		$this->version = '1.0';
 		
-		$this->EE =& get_instance();
+		$this->EE = get_instance();
+		
+		if (defined('APP_VER') && version_compare(APP_VER, '3.0.0', '<'))
+		{
+			$this->EE2 = TRUE;
+		}
 		
 		// Initialise and load functions list    	
     	$this->eeless_functions = new Eeless_fcn();		
@@ -118,7 +125,7 @@ class Eeless_upd {
 		$eeless_data = array(
 			'cache' => 'off',
 			'showerrors' => 'off',
-			'comments' => $this->EE->security->xss_clean('Only one root currently, tags allow subfolders within.'),
+			'comments' => $this->EE2 ? $this->EE->security->xss_clean('Only one root currently, tags allow subfolders within.') : ee('Security/XSS')->clean('Only one root currently, tags allow subfolders within.'),
 		);
 		
 		// Perform the insert

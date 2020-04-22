@@ -16,7 +16,7 @@ class Eeless_fcn {
 	private $EE;
 
 	public function __construct() { 
-		$this->EE =& get_instance();
+		$this->EE = get_instance();
 	} /* END Constructor */
 	
 	
