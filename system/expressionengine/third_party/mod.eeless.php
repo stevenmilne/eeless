@@ -23,6 +23,8 @@ class Eeless {
 	private $EE;
 	var $return_data    = ''; 
 	
+	private $EE2 = FALSE;
+	
 	/**
 	 * Class Constructor
 	 *
@@ -30,7 +32,13 @@ class Eeless {
 	 * @return null
 	 */
 	public function __construct() {
-	$this->EE =& get_instance();
+		$this->EE = get_instance();
+		
+		if (defined('APP_VER') && version_compare(APP_VER, '3.0.0', '<'))
+		{
+			$this->EE2 = TRUE;
+		}
+		
 	}
  
 	/**
@@ -70,7 +78,7 @@ class Eeless {
 		
 		//now we fire the full paths at the compiler
 		try {
-		    lessc::ccompile($full_bootstrap, $full_css);
+		    (new lessc)->ccompile($full_bootstrap, $full_css);
 		} catch (exception $ex) {
 			// capture any fails and feed back to browser
 			// TODO - have a switch to turn off error reporting

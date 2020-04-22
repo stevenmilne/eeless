@@ -24,6 +24,8 @@ class Eeless_mcp {
 	private $eeless_functions;
 	private $EE;
 	
+	private $EE2 = FALSE;
+	
 	/**
      * Class Constructor
      *
@@ -31,11 +33,16 @@ class Eeless_mcp {
      * @return null
      */
 	public function __construct() {
-		$this->EE =& get_instance();
+		$this->EE = get_instance();
+		
+		if (defined('APP_VER') && version_compare(APP_VER, '3.0.0', '<'))
+		{
+			$this->EE2 = TRUE;
+		}
 		
 		// Setting some global variables 
-		$this->eeless_base_url = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless';
-    	$this->eeless_form_url = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless';
+		$this->eeless_base_url = $this->EE2 ? BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless' : ee('CP/URL', 'addons/settings/eeless');
+    	$this->eeless_form_url = $this->EE2 ? 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=eeless' : ee('CP/URL', 'addons/settings/eeless');
     	$this->eeless_vars = array();
 		// Customise the module pages
     	$this->EE->cp->set_right_nav(
@@ -63,7 +70,14 @@ class Eeless_mcp {
 		$this->EE->load->helper('form');
 		 
 		// Set the module page title
-		$this->EE->cp->set_variable('cp_page_title',$this->EE->lang->line('eeless_module_name'));
+		if ( version_compare( APP_VER, '2.6.0', '<' ) )
+		{
+			$this->EE->cp->set_variable( 'cp_page_title', lang('eeless_module_name') );
+		}
+		else
+		{
+			$this->EE->view->cp_page_title = lang('eeless_module_name');
+		}
 		
 		// Set the forms action URL
 		$this->eeless_vars['action_url'] = $this->eeless_form_url;
@@ -103,7 +117,14 @@ class Eeless_mcp {
 		$this->EE->load->helper('form');
 		
 		// Customise the page title
-		$this->EE->cp->set_variable('cp_page_title',$this->EE->lang->line('eeless_edit'));
+		if ( version_compare( APP_VER, '2.6.0', '<' ) )
+		{
+			$this->EE->cp->set_variable( 'cp_page_title', lang('eeless_edit') );
+		}
+		else
+		{
+			$this->EE->view->cp_page_title = lang('eeless_edit');
+		}
 		$this->EE->cp->set_breadcrumb($this->eeless_base_url,$this->EE->lang->line('eeless_module_name'));
 		$this->eeless_vars['action_url'] = $this->eeless_form_url.AMP.'method=update';
 	 
@@ -146,10 +167,10 @@ class Eeless_mcp {
 		// Check if the view has passed over all the required data
 		if(true == $this->EE->input->get_post('eeless_id')  ) :
 			$eeless_data = array(
-				'less_serverpath'  => $this->EE->security->xss_clean($this->EE->input->get_post('less_serverpath')),
-				'less_browserpath' => $this->EE->security->xss_clean($this->EE->input->get_post('less_browserpath')),
-				'css_serverpath'   => $this->EE->security->xss_clean($this->EE->input->get_post('css_serverpath')),
-				'css_browserpath'  => $this->EE->security->xss_clean($this->EE->input->get_post('css_browserpath'))	
+				'less_serverpath'  => $this->EE2 ? $this->EE->security->xss_clean($this->EE->input->get_post('less_serverpath')) : ee('Security/XSS')->clean($this->EE->input->get_post('less_serverpath')),
+				'less_browserpath' => $this->EE2 ? $this->EE->security->xss_clean($this->EE->input->get_post('less_browserpath')) : ee('Security/XSS')->clean($this->EE->input->get_post('less_browserpath')),
+				'css_serverpath'   => $this->EE2 ? $this->EE->security->xss_clean($this->EE->input->get_post('css_serverpath')) : ee('Security/XSS')->clean($this->EE->input->get_post('css_serverpath')),
+				'css_browserpath'  => $this->EE2 ? $this->EE->security->xss_clean($this->EE->input->get_post('css_browserpath')) : ee('Security/XSS')->clean($this->EE->input->get_post('css_browserpath'))	
 			);
 			
 			// TODO - TESTS
